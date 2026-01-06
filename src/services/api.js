@@ -48,4 +48,5 @@ export const cancelBooking = (id) => api.put(`/bookings/${id}/cancel`);
 export const checkIn = (id) => api.put(`/bookings/${id}/checkin`);
 export const checkOut = (id) => api.put(`/bookings/${id}/checkout`);
 
+
 export default api;

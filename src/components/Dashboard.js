@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { getAllSpots, getUserBookings } from '../services/api';
+import React, { useState, useEffect, useContext } from 'react';
+import { getAllSpots } from '../services/api';
+import { AuthContext } from '../context/AuthContext';
 import ParkingGrid from './ParkingGrid';
 import MyBookings from './MyBookings';
+import AdminBookings from './AdminBookings';
 
 const Dashboard = () => {
+  const { user } = useContext(AuthContext);
   const [stats, setStats] = useState({
     total: 0,
     available: 0,
@@ -68,12 +71,16 @@ const Dashboard = () => {
               className={`btn ${activeTab === 'bookings' ? 'btn-primary' : 'btn-secondary'}`}
               onClick={() => setActiveTab('bookings')}
             >
-              My Bookings
+              {user?.role === 'admin' ? 'All Bookings' : 'My Bookings'}
             </button>
           </div>
         </div>
 
-        {activeTab === 'parking' ? <ParkingGrid /> : <MyBookings />}
+        {activeTab === 'parking' ? (
+          <ParkingGrid />
+        ) : (
+          user?.role === 'admin' ? <AdminBookings /> : <MyBookings />
+        )}
       </div>
     </div>
   );
